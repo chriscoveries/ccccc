@@ -87,6 +87,7 @@ if [ ! -x "$DATA_DIR/bin/caddy" ] ||
 	xattr -dr com.apple.quarantine "$DATA_DIR/bin/caddy" 2>/dev/null || true
 fi
 
+cp "$KIT_DIR/LICENSE.caddy" "$KIT_DIR/NOTICE.caddy" "$DATA_DIR/bin/"
 cp "$KIT_DIR/Caddyfile" "$DATA_DIR/Caddyfile"
 export CCCC_UPSTREAM_PORT=$UPSTREAM_PORT
 export CCCC_WEB_ROOT=$DATA_DIR/web46

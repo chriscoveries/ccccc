@@ -13,6 +13,7 @@ unzip -q "$kit/tests/fixtures/web46.zip" -d "$tmp/captured"
 cmp "$kit/tests/fixtures/web46/index.html" "$tmp/captured/index.html"
 cmp "$kit/tests/fixtures/web46/logo.svg" "$tmp/captured/logo.svg"
 cp "$kit/build-bundle.sh" "$tmp/kit/build-bundle.sh"
+cp "$kit/LICENSE.cccc" "$kit/NOTICE.cccc" "$tmp/kit/"
 cp -R "$tmp/captured/." "$tmp/src/web/dist/"
 cp -R "$tmp/captured/." "$tmp/data/web46/"
 printf '#!/usr/bin/env bash\nprintf "v0.4.46\\n"\n' >"$tmp/bin/git"
@@ -28,3 +29,12 @@ fi
 grep -F 'already exists; choose a fresh CCCC_DATA_DIR' "$tmp/output" >/dev/null
 diff -r "$tmp/captured" "$tmp/data/web46"
 printf 'Existing bundle refused and unchanged.\n'
+
+# The successful path must carry the exact license and notice in both outputs.
+PATH="$tmp/bin:$PATH" CCCC_DATA_DIR="$tmp/fresh" \
+	bash "$tmp/kit/build-bundle.sh" "$tmp/src" >"$tmp/output" 2>&1
+for name in LICENSE.cccc NOTICE.cccc; do
+	cmp "$kit/$name" "$tmp/fresh/web46/$name"
+	tar -xOzf "$tmp/kit/web46-dist.tar.gz" "$name" | cmp - "$kit/$name"
+done
+printf 'Bundle archive and installed copy contain both attribution files.\n'

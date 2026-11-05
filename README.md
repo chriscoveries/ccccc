@@ -53,7 +53,9 @@ cccc project or its maintainers.
 | `install-macos.sh` | launchd agent `sh.ccccc.web`; same checks; prints the rollback. |
 | `build-bundle.sh` | Builds `web/dist` from the official `ChesterRa/cccc` tag `v0.4.46` with node, installs it into the data directory, and prints sha256. |
 | `caddy.sha256` | Pinned Caddy 2.11.2 release hashes, one per platform. |
-| `LICENSE` | The bundle is Apache-2.0 cccc code built from v0.4.46. |
+| `LICENSE.cccc`, `LICENSE.caddy` | Verbatim upstream Apache-2.0 license texts at the pinned tags. |
+| `NOTICE.cccc`, `NOTICE.caddy` | Kit-supplied attribution and distribution limits for each upstream component. |
+| `LICENSE` | This kit's attribution and distribution note. |
 
 Data and logs live in `~/.local/share/ccccc/` (override with
 `CCCC_DATA_DIR`); the macOS agent also writes `caddy.log` there.
@@ -83,5 +85,13 @@ is never modified.
 
 ## License
 
-See `LICENSE`: the web bundle is Apache-2.0 licensed cccc code built from
-tag v0.4.46.
+The builder includes `LICENSE.cccc` and `NOTICE.cccc` in the web archive and
+installed web directory. The installers put `LICENSE.caddy` and
+`NOTICE.caddy` alongside the downloaded Caddy binary. The `NOTICE` files are
+kit-supplied attribution: neither pinned upstream tag has a root `NOTICE`.
+The captured web ZIP in the regression fixture must accompany the cccc license
+and notice if the kit is shared; do not distribute the ZIP by itself.
+
+The web and Caddy binaries include third-party dependencies whose license and
+notice requirements have not been inventoried here. Do not distribute the kit
+or bundles externally until that inventory and any required notices are complete.

@@ -51,15 +51,22 @@ log "building web/dist"
 )
 [ -f "$SRC_DIR/web/dist/index.html" ] ||
 	die "the build produced no web/dist/index.html"
+for name in LICENSE.cccc NOTICE.cccc; do
+	[ -f "$KIT_DIR/$name" ] || die "missing distribution file $name"
+	if [ -e "$SRC_DIR/web/dist/$name" ] || [ -L "$SRC_DIR/web/dist/$name" ]; then
+		die "bundle conflicts with reserved distribution file $name"
+	fi
+done
 
 log "creating $OUT_TAR"
-tar -czf "$OUT_TAR" -C "$SRC_DIR/web/dist" .
+tar -czf "$OUT_TAR" -C "$SRC_DIR/web/dist" . -C "$KIT_DIR" LICENSE.cccc NOTICE.cccc
 printf 'archive sha256 (%s): ' "$(basename "$OUT_TAR")"
 sha256_of "$OUT_TAR" | awk '{ print $1 }'
 manifest=$(
-	cd "$SRC_DIR/web/dist"
-	find . -type f | LC_ALL=C sort | while IFS= read -r f; do sha256_of "$f"; done |
-		sha256_of - | awk '{ print $1 }'
+	{
+		(cd "$SRC_DIR/web/dist" && find . -type f | LC_ALL=C sort | while IFS= read -r f; do sha256_of "$f"; done)
+		(cd "$KIT_DIR" && sha256_of LICENSE.cccc && sha256_of NOTICE.cccc)
+	} | LC_ALL=C sort | sha256_of - | awk '{ print $1 }'
 )
 printf 'manifest sha256 (paths + file hashes): %s\n' "$manifest"
 
@@ -67,5 +74,6 @@ log "installing bundle into $DATA_DIR/web46"
 mkdir -p "$DATA_DIR" || die "cannot create data directory"
 mkdir "$DATA_DIR/web46" || die "$DATA_DIR/web46 already exists; choose a fresh CCCC_DATA_DIR"
 cp -R "$SRC_DIR/web/dist/." "$DATA_DIR/web46/"
+cp "$KIT_DIR/LICENSE.cccc" "$KIT_DIR/NOTICE.cccc" "$DATA_DIR/web46/"
 [ -f "$DATA_DIR/web46/index.html" ] || die "bundle copy failed"
 log "done: run ./install-linux.sh or ./install-macos.sh next"

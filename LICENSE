@@ -12,9 +12,11 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations
 under the License.
 
-The Apache-2.0 license text for the bundled cccc code ships with that
-source tree (the LICENSE and NOTICE files at tag v0.4.46) and must accompany
-redistributions of the built bundle together with this notice.
+The upstream v0.4.46 root LICENSE is included verbatim as LICENSE.cccc;
+the tag has no root NOTICE file. NOTICE.cccc is a kit-supplied attribution,
+not an upstream NOTICE. Caddy's separate license and kit-supplied attribution
+are LICENSE.caddy and NOTICE.caddy. Bundled third-party components may carry
+additional obligations; review those before any external distribution.
 
 The scripts in this kit are provided as-is, without warranty, for building
 and running the bundle described above. This kit is not affiliated with the

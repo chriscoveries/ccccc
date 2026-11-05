@@ -86,6 +86,7 @@ if [ ! -x "$DATA_DIR/bin/caddy" ] ||
 	install -m 0755 "$tmp/caddy" "$DATA_DIR/bin/caddy"
 fi
 
+cp "$KIT_DIR/LICENSE.caddy" "$KIT_DIR/NOTICE.caddy" "$DATA_DIR/bin/"
 cp "$KIT_DIR/Caddyfile" "$DATA_DIR/Caddyfile"
 export CCCC_UPSTREAM_PORT=$UPSTREAM_PORT
 export CCCC_WEB_ROOT=$DATA_DIR/web46

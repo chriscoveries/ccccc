@@ -1,0 +1,9 @@
+Classic cccc web bundle attribution
+
+The web bundle is built from cccc v0.4.46:
+https://github.com/ChesterRa/cccc/tree/v0.4.46
+The upstream LICENSE is included as LICENSE.cccc. The upstream tag has no
+root NOTICE file. This attribution is supplied by the kit, not by upstream.
+
+The bundle may include third-party components with additional license and
+notice requirements. Those dependencies must be reviewed before distribution.

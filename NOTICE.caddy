@@ -1,0 +1,9 @@
+Caddy attribution
+
+Caddy v2.11.2 is downloaded separately from its official release:
+https://github.com/caddyserver/caddy/releases/tag/v2.11.2
+The upstream LICENSE is included as LICENSE.caddy. The upstream tag has no
+root NOTICE file. This attribution is supplied by the kit, not by upstream.
+
+Caddy and its dependencies may have additional license and notice requirements.
+Those dependencies must be reviewed before distribution.
