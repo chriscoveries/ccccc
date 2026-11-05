@@ -1,0 +1,15 @@
+name: test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  shell-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run bundle guard regressions
+        run: |
+          bash test/refuse-existing-bundle.sh
+          bash tests/existing-bundle.sh
