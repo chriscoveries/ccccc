@@ -1,0 +1,90 @@
+# ccccc
+
+A standalone, loopback-only proxy kit that puts the classic v0.4.46 cccc Web
+look in front of a newer cccc server. Caddy serves the pinned bundle and
+reverse-proxies `/api/`, including server-sent events and terminal WebSockets,
+to the running cccc web listener without rewriting its forwarded headers.
+
+This kit is not affiliated with, endorsed by, or supported by the upstream
+cccc project or its maintainers.
+
+## Security
+
+- **cccc trusts loopback.** A request arriving from 127.0.0.1 may be
+  authenticated as the local administrator, so this proxy must bind
+  `127.0.0.1` and only `127.0.0.1`. Never bind `0.0.0.0`, a LAN address or a
+  tailnet address.
+- The Caddyfile's site address is `http://:8851` (empty host, so any Host
+  matches a front end that forwards its own hostname) with an explicit
+  `bind 127.0.0.1`. A site address alone does not constrain the listening
+  interface — the bind is what keeps the socket on loopback. Never remove it.
+- The global `servers { trusted_proxies static 127.0.0.1/32 ::1/128 }` lets a
+  trusted loopback front end's `X-Forwarded-*` headers pass through to cccc
+  unchanged; the live event stream and WebSockets compare the browser's
+  Origin against them. There are no `X-Forwarded-For`/`X-Real-IP` overrides.
+- Both installers run a **loopback refusal check before the first start**:
+  they adapt the config to JSON and assert that every listener is exactly
+  `127.0.0.1:8851`, and confirm that a TCP connection to port 8851 on the
+  host's non-loopback address is refused. They repeat the refusal check after
+  the start, and print the rollback commands on success and on failure alike.
+- Expose the proxy only through an authenticated path (an SSH tunnel, or a
+  `tailscale serve` entry) after those checks pass.
+
+## Tested
+
+- cccc v0.4.47 behind this proxy on Linux (user systemd unit) and macOS
+  (launchd agent), reached through `tailscale serve`: group list, live
+  messages, inbox, actor terminal WebSocket, settings and the task/context
+  panel, all rendered by the classic bundle.
+
+## Limits
+
+- The bundle is old. The v0.4.46 UI against a newer API drifts: screens and
+  response shapes are not guaranteed to match, and some views may render
+  stale or incomplete data.
+- `/api/v1/groups/:id/delegate_contact` was removed upstream after v0.4.46;
+  the classic UI's reference to it fails against current servers.
+- Only the flows listed under Tested were exercised. Login paths beyond the
+  local session were not verified.
+
+## Contents
+
+| File | Purpose |
+| --- | --- |
+| `Caddyfile` | Proxy config. `{$CCCC_UPSTREAM_PORT}` (your cccc web port) and `{$CCCC_WEB_ROOT}` (bundle directory) are set by the installers. |
+| `install-linux.sh` | User systemd unit `ccccc.service`; pre-start loopback refusal check; prints the rollback. |
+| `install-macos.sh` | launchd agent `sh.ccccc.web`; same checks; prints the rollback. |
+| `build-bundle.sh` | Builds `web/dist` from the official `ChesterRa/cccc` tag `v0.4.46` with node, installs it into the data directory, and prints sha256. |
+| `caddy.sha256` | Pinned Caddy 2.11.2 release hashes, one per platform. |
+| `LICENSE` | The bundle is Apache-2.0 cccc code built from v0.4.46. |
+
+Data and logs live in `~/.local/share/ccccc/` (override with
+`CCCC_DATA_DIR`); the macOS agent also writes `caddy.log` there.
+
+## Quick start
+
+1. Build the bundle (node `^22.18.0 || >=24.11.0`): `./build-bundle.sh` —
+   it prints the sha256 of the archive and of the file manifest it produced.
+2. Linux: `CCCC_UPSTREAM_PORT=<your cccc web port> ./install-linux.sh`
+   macOS: `CCCC_UPSTREAM_PORT=<your cccc web port> ./install-macos.sh`
+
+   The default port is 8848; confirm your server's listener first
+   (`ss -ltn` on Linux, `lsof -nP -iTCP:LISTEN` on macOS).
+3. Open `http://127.0.0.1:8851/` directly, or serve it over an authenticated
+   tunnel only after the installer's checks pass.
+
+Each installer downloads Caddy 2.11.2 for the host platform, verifies it
+against `caddy.sha256`, and prints the rollback commands at the end:
+
+- Linux: `systemctl --user disable --now ccccc.service`, remove
+  `~/.config/systemd/user/ccccc.service`, then `systemctl --user daemon-reload`.
+- macOS: `launchctl bootout gui/$(id -u)/sh.ccccc.web`, remove
+  `~/Library/LaunchAgents/sh.ccccc.web.plist`.
+
+Removing `~/.local/share/ccccc/` completes either rollback; your cccc server
+is never modified.
+
+## License
+
+See `LICENSE`: the web bundle is Apache-2.0 licensed cccc code built from
+tag v0.4.46.

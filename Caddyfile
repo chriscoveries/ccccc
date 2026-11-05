@@ -1,0 +1,51 @@
+{
+	auto_https off
+	admin off
+	servers {
+		# cccc trusts loopback and compares the browser's https Origin with the
+		# X-Forwarded-* headers a trusted loopback front end (tailscale serve)
+		# sets. Trust only loopback so those reach cccc unchanged; a rewritten
+		# X-Forwarded-Proto surfaces as an Origin mismatch (stream Disconnected).
+		trusted_proxies static 127.0.0.1/32 ::1/128
+	}
+}
+
+# Site address: empty host so any Host matches (a front end forwards its own
+# hostname; a named http://127.0.0.1:8851 site answers only Host 127.0.0.1
+# and serves an empty 200 behind it). A site address alone does not constrain
+# the listening interface — bind keeps the socket on loopback. NEVER remove
+# the bind: cccc trusts loopback.
+http://:8851 {
+	bind 127.0.0.1
+	@api path /api /api/*
+	handle @api {
+		reverse_proxy 127.0.0.1:{$CCCC_UPSTREAM_PORT} {
+			# Preserve the browser's Host and Origin: a trusted loopback proxy's
+			# X-Forwarded-* headers pass through unchanged; do not rewrite them.
+			header_up -Forwarded
+			flush_interval -1
+		}
+	}
+	# The published bundle embeds /ui/ URLs although its ZIP has no ui/
+	# directory. Strip the prefix before looking up assets and SPA routes.
+	handle_path /ui/* {
+		root * {$CCCC_WEB_ROOT}
+		@assets path /assets/*
+		handle @assets {
+			file_server
+		}
+		handle {
+			try_files {path} /index.html
+			file_server
+		}
+	}
+	handle /assets/* {
+		root * {$CCCC_WEB_ROOT}
+		file_server
+	}
+	handle {
+		root * {$CCCC_WEB_ROOT}
+		try_files {path} /index.html
+		file_server
+	}
+}
