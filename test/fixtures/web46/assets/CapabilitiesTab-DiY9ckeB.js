@@ -1,0 +1,1 @@
+import{t as e}from"./CapabilitiesTab-BnybzKb5.js";export{e as CapabilitiesTab};

@@ -1,0 +1,1 @@
+function e(){let e=document.querySelector(`script[type="module"][src]`)?.src;return e?new URL(e,location.href).pathname:``}function t(e){if(!e)return!1;let t=!!e.webSource&&!!e.daemonSource&&e.webSource!==e.daemonSource,n=e.servedEntry.includes(`/assets/`)&&e.loadedEntry.includes(`/assets/`)&&e.servedEntry!==e.loadedEntry;return t||n}export{e as n,t};

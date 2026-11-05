@@ -1,0 +1,1 @@
+.glass-input.direct-invitation-input:is(:focus,:focus-visible){border-color:var(--color-border-primary);box-shadow:none;outline:none}

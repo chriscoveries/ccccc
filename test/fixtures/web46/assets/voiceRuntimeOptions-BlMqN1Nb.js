@@ -1,0 +1,1 @@
+import{ca as e,da as t}from"./chat-core-if4p41vQ.js";var n=[`codex`,`claude`,`grok`,`opencode`,`kilo`,`pi`,`antigravity`,`copilot`,`devin`,`cursor`,`kimi`,`auggie`,`kiro`,`hermes`,`droid`];function r(n){let r=e[n]?.label||n;return t(n)?`${r} (ACP)`:n===`pi`?`${r} (RPC)`:r}export{n,r as t};

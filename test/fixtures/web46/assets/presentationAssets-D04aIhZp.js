@@ -1,0 +1,1 @@
+import{Sc as e,Vs as t}from"./chat-core-if4p41vQ.js";function n(n,r,i){let a=r?.card;if(!a)return``;let o=String(a.content.url||``).trim();return o?e(o):t(n,r.slot_id,i)}export{n as t};
