@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      (() => {
+        let stored = null;
+        try {
+          stored = localStorage.getItem("cccc-theme");
+        } catch {
+          // Storage can be unavailable in hardened or private browser contexts.
+        }
+        const hour = new Date().getHours();
+        const automatic = hour >= 7 && hour < 19 ? "light" : "dark";
+        const theme = stored === "light" || stored === "dark" ? stored : automatic;
+        document.documentElement.classList.add(theme);
+      })();
+    </script>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#000000" />
+    <title>CCCC - AI Agent Collaboration</title>
+    <meta
+      name="description"
+      content="Multi-agent AI collaboration platform for software development"
+    />
+    <link rel="icon" type="image/svg+xml" href="/ui/logo.svg" />
+    <link rel="manifest" href="/ui/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <script type="module" crossorigin src="/ui/assets/index-C2jB0krW.js"></script>
+    <link rel="modulepreload" crossorigin href="/ui/assets/rolldown-runtime-QTnfLwEv.js">
+    <link rel="modulepreload" crossorigin href="/ui/assets/app-chrome-BXDtl-Jb.js">
+    <link rel="modulepreload" crossorigin href="/ui/assets/chat-core-if4p41vQ.js">
+    <link rel="modulepreload" crossorigin href="/ui/assets/react-vendor--hivlBlX.js">
+    <link rel="modulepreload" crossorigin href="/ui/assets/actorSecretManagerModel-xaxRYmZS.js">
+    <link rel="modulepreload" crossorigin href="/ui/assets/voiceRuntimeOptions-BlMqN1Nb.js">
+    <link rel="modulepreload" crossorigin href="/ui/assets/select-menu-D7w8p983.js">
+    <link rel="modulepreload" crossorigin href="/ui/assets/vendor-DXg0FqC3.js">
+    <link rel="modulepreload" crossorigin href="/ui/assets/SelectCombobox-BQD42blF.js">
+    <link rel="modulepreload" crossorigin href="/ui/assets/SpeakingVoiceSelect-Clagko5K.js">
+    <link rel="modulepreload" crossorigin href="/ui/assets/input-EJlWrLMT.js">
+    <link rel="modulepreload" crossorigin href="/ui/assets/useVoiceAudioStore-D25QUGHw.js">
+    <link rel="modulepreload" crossorigin href="/ui/assets/dialog-B119jw8R.js">
+    <link rel="modulepreload" crossorigin href="/ui/assets/GroupItemMenuTrigger-D1arUXuf.js">
+    <link rel="modulepreload" crossorigin href="/ui/assets/segmented-choice-NjeL8t7X.js">
+    <link rel="modulepreload" crossorigin href="/ui/assets/useSSE-C-Z-e3Us.js">
+    <link rel="modulepreload" crossorigin href="/ui/assets/reachMembershipModel-Btd2Zj_n.js">
+    <link rel="modulepreload" crossorigin href="/ui/assets/GroupConnectionsControl-CBsn5KOo.js">
+    <link rel="modulepreload" crossorigin href="/ui/assets/dnd-B-JDCGef.js">
+    <link rel="modulepreload" crossorigin href="/ui/assets/useSwipeNavigation-DRGCcrje.js">
+    <link rel="modulepreload" crossorigin href="/ui/assets/xterm-Crb5FFP7.js">
+    <link rel="modulepreload" crossorigin href="/ui/assets/diagnostics-Dw1LIlRI.js">
+    <link rel="modulepreload" crossorigin href="/ui/assets/terminalTheme-2gOmrF4r.js">
+    <link rel="modulepreload" crossorigin href="/ui/assets/NativeSessionTerminal-Dn1la-NK.js">
+    <link rel="modulepreload" crossorigin href="/ui/assets/capabilityCenterRoute-BPL2wPpV.js">
+    <link rel="stylesheet" crossorigin href="/ui/assets/chat-core-CxV5FK4-.css">
+    <link rel="stylesheet" crossorigin href="/ui/assets/GroupConnectionsControl-DuCVGzep.css">
+    <link rel="stylesheet" crossorigin href="/ui/assets/xterm-CHOd7Rch.css">
+    <link rel="stylesheet" crossorigin href="/ui/assets/index-_-Bz6Hla.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

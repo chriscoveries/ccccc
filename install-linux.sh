@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # ccccc — install the classic-web proxy as a user systemd unit (Linux).
-# The loopback refusal check runs BEFORE the first start; the rollback is
-# printed at the end whether the install succeeded or not.
+# The adapted config is checked before the first start. The non-loopback
+# refusal probe runs when an IPv4 address is available. Rollback commands are
+# printed after a service start attempt and on success; earlier pre-start
+# failures exit with an error and no rollback output.
 set -euo pipefail
 
 CADDY_VERSION=2.11.2
@@ -46,7 +48,7 @@ assert_listeners() { # <adapted.json>: every listener must be 127.0.0.1:8851
 print_rollback() {
 	cat <<EOF
 
-Rollback (nothing else was changed; your cccc server was not touched):
+Rollback the ccccc service integration (the cccc server itself was not changed). This does not restore Caddy files that existed before the installer ran.
   systemctl --user disable --now $UNIT_NAME
   rm -f '$UNIT_DIR/$UNIT_NAME'
   systemctl --user daemon-reload
@@ -99,7 +101,7 @@ ext_ip=$(non_loopback_ip)
 log "pre-start check 2/2: non-loopback refusal on port $LISTEN_PORT"
 if [ -n "$ext_ip" ]; then
 	if port_reachable "$ext_ip" "$LISTEN_PORT"; then
-		die "port $LISTEN_PORT is already reachable at $ext_ip before start — stop that listener first; nothing was installed"
+		die "port $LISTEN_PORT is already reachable at $ext_ip before start — stop that listener first; service start was not attempted"
 	fi
 	log "refused at $ext_ip:$LISTEN_PORT (good)"
 else
@@ -147,7 +149,7 @@ if ! port_reachable 127.0.0.1 "$LISTEN_PORT"; then
 fi
 if [ -n "$ext_ip" ] && port_reachable "$ext_ip" "$LISTEN_PORT"; then
 	print_rollback
-	die "port $LISTEN_PORT became reachable at $ext_ip after start — stopped for safety"
+	die "port $LISTEN_PORT became reachable at $ext_ip after start — stop the service using the rollback commands above"
 fi
 if command -v curl >/dev/null 2>&1; then
 	code=$(curl -s -o /dev/null -w '%{http_code}' -m 5 \

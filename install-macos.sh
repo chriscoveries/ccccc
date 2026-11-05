@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # ccccc — install the classic-web proxy as a launchd agent (macOS).
-# The loopback refusal check runs BEFORE the first start; the rollback is
-# printed at the end whether the install succeeded or not.
+# The adapted config is checked before the first start. The non-loopback
+# refusal probe runs when an IPv4 address is available. Rollback commands are
+# printed after a service start attempt and on success; earlier pre-start
+# failures exit with an error and no rollback output.
 set -euo pipefail
 
 CADDY_VERSION=2.11.2
@@ -47,7 +49,7 @@ assert_listeners() { # <adapted.json>: every listener must be 127.0.0.1:8851
 print_rollback() {
 	cat <<EOF
 
-Rollback (nothing else was changed; your cccc server was not touched):
+Rollback the ccccc service integration (the cccc server itself was not changed). This does not restore Caddy files that existed before the installer ran.
   launchctl bootout gui/$(id -u)/$LABEL
   rm -f '$PLIST'
   rm -f '$DATA_DIR/Caddyfile'
@@ -100,7 +102,7 @@ ext_ip=$(non_loopback_ip)
 log "pre-start check 2/2: non-loopback refusal on port $LISTEN_PORT"
 if [ -n "$ext_ip" ]; then
 	if port_reachable "$ext_ip" "$LISTEN_PORT"; then
-		die "port $LISTEN_PORT is already reachable at $ext_ip before start — stop that listener first; nothing was installed"
+		die "port $LISTEN_PORT is already reachable at $ext_ip before start — stop that listener first; service start was not attempted"
 	fi
 	log "refused at $ext_ip:$LISTEN_PORT (good)"
 else
@@ -162,7 +164,7 @@ if ! port_reachable 127.0.0.1 "$LISTEN_PORT"; then
 fi
 if [ -n "$ext_ip" ] && port_reachable "$ext_ip" "$LISTEN_PORT"; then
 	print_rollback
-	die "port $LISTEN_PORT became reachable at $ext_ip after start — stopped for safety"
+	die "port $LISTEN_PORT became reachable at $ext_ip after start — stop the service using the rollback commands above"
 fi
 listeners=$(lsof -nP -iTCP:"$LISTEN_PORT" -sTCP:LISTEN 2>/dev/null |
 	awk 'NR > 1 { print $9 }' | sort -u || true)

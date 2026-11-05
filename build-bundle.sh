@@ -64,8 +64,8 @@ manifest=$(
 printf 'manifest sha256 (paths + file hashes): %s\n' "$manifest"
 
 log "installing bundle into $DATA_DIR/web46"
-mkdir -p "$DATA_DIR/web46"
-find "$DATA_DIR/web46" -mindepth 1 -delete
+mkdir -p "$DATA_DIR" || die "cannot create data directory"
+mkdir "$DATA_DIR/web46" || die "$DATA_DIR/web46 already exists; choose a fresh CCCC_DATA_DIR"
 cp -R "$SRC_DIR/web/dist/." "$DATA_DIR/web46/"
 [ -f "$DATA_DIR/web46/index.html" ] || die "bundle copy failed"
 log "done: run ./install-linux.sh or ./install-macos.sh next"

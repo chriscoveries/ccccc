@@ -22,20 +22,17 @@ cccc project or its maintainers.
   trusted loopback front end's `X-Forwarded-*` headers pass through to cccc
   unchanged; the live event stream and WebSockets compare the browser's
   Origin against them. There are no `X-Forwarded-For`/`X-Real-IP` overrides.
-- Both installers run a **loopback refusal check before the first start**:
-  they adapt the config to JSON and assert that every listener is exactly
-  `127.0.0.1:8851`, and confirm that a TCP connection to port 8851 on the
-  host's non-loopback address is refused. They repeat the refusal check after
-  the start, and print the rollback commands on success and on failure alike.
+- Before starting Caddy, each installer validates that the adapted configuration has only `127.0.0.1:8851` and, when a non-loopback IPv4 address is available, checks that port 8851 refuses connections there. It repeats the probe after start when such an address is available. Successful completion and failures after a service start attempt print rollback commands. Earlier pre-start failures exit with an error and no rollback output; Caddy files may already have been written in the data directory.
 - Expose the proxy only through an authenticated path (an SSH tunnel, or a
   `tailscale serve` entry) after those checks pass.
 
 ## Tested
 
-- cccc v0.4.47 behind this proxy on Linux (user systemd unit) and macOS
-  (launchd agent), reached through `tailscale serve`: group list, live
-  messages, inbox, actor terminal WebSocket, settings and the task/context
-  panel, all rendered by the classic bundle.
+- A recorded Linux stage trial exercised the classic bundle through the Caddy proxy on cccc v0.4.47: group list/open, live messaging, inbox, actor terminal WebSocket, settings, and the task/context panel. It used a transient Caddy unit, not this kit's `install-linux.sh`.
+
+## Not verified
+
+- The kit's Linux installer, the macOS launchd installer, and macOS runtime behavior have not been verified by the available evidence.
 
 ## Limits
 
