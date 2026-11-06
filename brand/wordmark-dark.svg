@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="320" viewBox="0 0 1320 320" role="img" aria-labelledby="title desc">
+  <title id="title">CCCC-CLASSIC wordmark for dark backgrounds</title>
+  <desc id="desc">Five nested round-capped C arcs and the CCCC-CLASSIC wordmark.</desc>
+  <g transform="translate(0 32) scale(0.5)" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-width="36">
+    <path d="M 408.735 408.735 A 216 216 0 1 1 408.735 103.265"/>
+    <path d="M 376.915 376.915 A 171 171 0 1 1 376.915 135.085"/>
+    <path d="M 345.095 345.095 A 126 126 0 1 1 345.095 166.905"/>
+    <path d="M 313.276 313.276 A 81 81 0 1 1 313.276 198.724"/>
+    <path d="M 281.456 281.456 A 36 36 0 1 1 281.456 230.544"/>
+  </g>
+  <g fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+  <path transform="translate(292 110)" d="M 70 15 C 61 8 52 5 41 5 C 18 5 5 23 5 50 C 5 77 18 95 41 95 C 52 95 62 92 70 85"/>
+  <path transform="translate(380 110)" d="M 70 15 C 61 8 52 5 41 5 C 18 5 5 23 5 50 C 5 77 18 95 41 95 C 52 95 62 92 70 85"/>
+  <path transform="translate(468 110)" d="M 70 15 C 61 8 52 5 41 5 C 18 5 5 23 5 50 C 5 77 18 95 41 95 C 52 95 62 92 70 85"/>
+  <path transform="translate(556 110)" d="M 70 15 C 61 8 52 5 41 5 C 18 5 5 23 5 50 C 5 77 18 95 41 95 C 52 95 62 92 70 85"/>
+  <path transform="translate(654 110)" d="M 5 50 H 45"/>
+  <path transform="translate(720 110)" d="M 70 15 C 61 8 52 5 41 5 C 18 5 5 23 5 50 C 5 77 18 95 41 95 C 52 95 62 92 70 85"/>
+  <path transform="translate(808 110)" d="M 8 5 V 95 H 66"/>
+  <path transform="translate(882 110)" d="M 5 95 L 38 5 L 71 95 M 18 60 H 58"/>
+  <path transform="translate(968 110)" d="M 68 14 C 60 8 51 5 39 5 C 19 5 7 15 7 31 C 7 45 17 52 39 57 C 60 62 70 69 70 82 C 70 90 62 95 39 95 C 26 95 15 91 7 84"/>
+  <path transform="translate(1050 110)" d="M 68 14 C 60 8 51 5 39 5 C 19 5 7 15 7 31 C 7 45 17 52 39 57 C 60 62 70 69 70 82 C 70 90 62 95 39 95 C 26 95 15 91 7 84"/>
+  <path transform="translate(1134 110)" d="M 12 5 V 95"/>
+  <path transform="translate(1174 110)" d="M 70 15 C 61 8 52 5 41 5 C 18 5 5 23 5 50 C 5 77 18 95 41 95 C 52 95 62 92 70 85"/>
+  </g>
+</svg>

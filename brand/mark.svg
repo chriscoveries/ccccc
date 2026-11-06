@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">CCCC-CLASSIC mark</title>
+  <desc id="desc">Five nested round-capped C arcs and the CCCC-CLASSIC wordmark.</desc>
+  <g fill="none" stroke="#111111" stroke-linecap="round" stroke-width="36">
+    <path d="M 408.735 408.735 A 216 216 0 1 1 408.735 103.265"/>
+    <path d="M 376.915 376.915 A 171 171 0 1 1 376.915 135.085"/>
+    <path d="M 345.095 345.095 A 126 126 0 1 1 345.095 166.905"/>
+    <path d="M 313.276 313.276 A 81 81 0 1 1 313.276 198.724"/>
+    <path d="M 281.456 281.456 A 36 36 0 1 1 281.456 230.544"/>
+  </g>
+</svg>
